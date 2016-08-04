@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body ng-app="demo">
+
+	<test></test>
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/lodash/lodash.js"></script>
+
+	<script src="angular-util-lodash.js"></script>
+
+	<script>
+		angular.module('demo', ['life.util.lodash'])
+			.directive('test', function(_) {
+				return {
+					template: '<pre>{{ postcodes | json }}</pre>',
+		      restrict: 'E',
+		      link: function postLink(scope, element, attrs) {
+		      	scope.postcodes = [];
+		      	_.times(10, function() {
+		      		scope.postcodes.push(_.random(1000,9999));
+		      	});
+		      	scope.postcodes.sort();
+						scope.postcodes = _.groupBy(scope.postcodes, function(p) {
+							return Math.floor(p/1000);
+						});
+					}
+				};
+			});
+	</script>
+</body>
+</html>
